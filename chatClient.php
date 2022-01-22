@@ -1,7 +1,39 @@
-<html>
-
 <?php
 session_start();
+if(isset($_SESSION['ID']))
+{
+if($_SESSION['Role']==1)
+{
+  include_once("client menu.php");
+}
+else if($_SESSION['Role']==2)
+{
+  include_once("admin menu.php");
+}
+else if($_SESSION['Role']==3)
+{
+  include_once("HRmenu.php");
+}
+else if($_SESSION['Role']==4)
+{
+include_once("auditor menu.php");
+}
+else
+{
+include_once("menu.php");
+}
+}
+ ?>
+<html>
+<style>
+.margin
+{
+  margin-left:40px;
+  margin-right:40px;
+}
+</style>
+<?php
+// session_start();
 
 if(isset($_SESSION['ID']))
 {
@@ -21,19 +53,17 @@ if(isset($_SESSION['ID']))
   {
     include_once("auditormenu.php");
   }
-  
+
 }
 else
 {
-    include_once("menu.php");  
+    include_once("menu.php");
 }
 
 
 ?>
 <head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 
@@ -50,7 +80,7 @@ $dbname = "market place";
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-$getAdmin="select UserID from user where RoleType=2 ";
+$getAdmin="select UserID from user where RoleType=2 or RoleType=4  ";
 //echo $getAdmin;
 $AdminResult=$conn->query($getAdmin);
 $admin=0;
@@ -64,7 +94,7 @@ if($AdminResult)
 
   }
 }
-echo count($adminArray)."<br>";
+// echo count($adminArray)."<br>";
 
 if(isset($_POST['submit']))
 {
@@ -76,7 +106,7 @@ $seen=0;
 for($x=0;$x<count($adminArray);$x++)
 {
 $sendMessage = "INSERT INTO chat(Fromm,Too,Message,Time,state) VALUES('$sent_by','$adminArray[$x]','$message','$createdAt','$seen')";
-echo $sendMessage."<br>";
+// echo $sendMessage."<br>";
 mysqli_query($conn,$sendMessage) or die(mysqli_error($conn));
 
 }
@@ -88,18 +118,18 @@ mysqli_query($conn,$sendMessage) or die(mysqli_error($conn));
 // $getReceiver = "SELECT * FROM user WHERE Userid = '$receiver'";
 // $getReceiverResult = mysqli_query($conn,$getReceiver) or die(mysqli_error($conn));
 // $getReceiverRow = mysqli_fetch_array($getReceiverResult);
-// 
+//
 ?>
 <strong>To Admins </strong>
 
  <strong><?//=$getReceiverRow['FirstName']?></strong>
 
- <table class="table table-striped">
+ <table class="table table-striped" >
  <?php
  for($x=0;$x<count($adminArray);$x++)
  {
- 
- $getMessage = "SELECT  chat.* , user.FirstName FROM chat INNER JOIN user on Fromm=user.UserID  WHERE Fromm = '$adminArray[$x]' AND Too = ".$_SESSION['ID']." OR Fromm = ".$_SESSION['ID']." AND Too = '$adminArray[$x]'";
+
+ $getMessage = "SELECT  chat.* , user.FirstName, user.RoleType FROM chat INNER JOIN user on Fromm=user.UserID  WHERE Fromm = '$adminArray[$x]' AND Too = ".$_SESSION['ID']." OR Fromm = ".$_SESSION['ID']." AND Too = '$adminArray[$x]'";
 
 // //echo $getMessage."<br>";
 ///to get the history of messages between client and adminArray
@@ -112,7 +142,22 @@ mysqli_query($conn,$sendMessage) or die(mysqli_error($conn));
 
  <tr><div style = "margin: 10;">
  <td>	<h4 style = "color: #007bff;display:inline"><?=$getMessageRow['FirstName']?></h4></td>
- <td>	<p class="text-center" style = "display:inline"><?=$getMessageRow['Message']?></p></td>
+ <?php
+ if($getMessageRow['RoleType']==4)
+ {
+  ?>
+ <td>	<a href="<?=$getMessageRow['Message'] ?>"> <p class="text-center" style = "display:inline"><?=$getMessageRow['Message']?></p></a></td>
+ <?php
+}
+ else
+ {
+  ?>
+
+<td>   <p class="text-center" style = "display:inline"><?=$getMessageRow['Message']?></p></td>
+
+ <?php
+ }
+  ?>
    </div>
    </tr>
  <?php
@@ -140,4 +185,41 @@ mysqli_query($conn,$sendMessage) or die(mysqli_error($conn));
 
 ?>
 </body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<footer class="footer" style="background-color:#263840;color:#818181; position: absolute;width:100%;
+  bottom: 0px;">
+  <br>
+  <div style="justify-content:space-evenly;display:flex">
+  <div>
+    <b>get to know us</b>
+    <ul>
+      <li>careers</li>
+      <li>blog</li>
+      <li>about amazon</li>
+    </ul>
+  </div>
+  <div>
+<b>Let us Help You </b>
+<ul>
+ <a href="Account.php" alt=" your account"><li>your account</li></a>
+ <a href="YouOrders.php"><li>you orders</li></a>
+ <li>shipping rates & policies</li>
+ <li>returns & replacemnts</li>
+</ul>
+</div>
+<div>
+ <b>Make Money with Us</b>
+ <ul>
+   <li>sell products on amazon</li>
+   <li>sell apps on amazon</li>
+     <li>Advertise Your Products</li>
+     </ul>
+</div>
+
+</div>
+</footer>
 </html>
+
