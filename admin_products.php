@@ -1,35 +1,66 @@
-<!DOCTYPE html>
-<html>
 
-
-
-<body>
-<?php  
+<?php
 session_start();
 if(isset($_SESSION['ID']))
 {
-  if($_SESSION['Role']==1)
-  {
-    include_once("client menu.php");
-  }
-  else if($_SESSION['Role']==2)
-  {
-    include_once("admin menu.php");
-  }
-  else if($_SESSION['Role']==3)
-  {
-    include_once("HRmenu.php");
-  }
-  else if($_SESSION['Role']==4)
-  {
-    include_once("auditormenu.php");
-  }
-  
+if($_SESSION['Role']==1)
+{
+  include_once("client menu.php");
+}
+else if($_SESSION['Role']==2)
+{
+  include_once("admin menu.php");
+}
+else if($_SESSION['Role']==3)
+{
+  include_once("HRmenu.php");
+}
+else if($_SESSION['Role']==4)
+{
+include_once("auditor menu.php");
 }
 else
 {
-    include_once("menu.php");  
+include_once("menu.php");
 }
+}
+ ?>
+<!DOCTYPE html>
+<html>
+<style>
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #9F2B00;
+  color: white;
+}
+a{
+  text-decoration:none;
+  color:black;
+
+}
+</style>
+
+
+<body>
+<?php
 
 $conn = new mysqli ("localhost", "root", "", "market place") ;
 
@@ -41,18 +72,18 @@ $query = "select * from products";
 $results = $conn->query($query) ;
 
 
-echo "<table border=1>";
+echo "<table class='form' border=1 id='customers'>";
 echo "
  <tr>
-<th> ProductID </th> 
+<th> ProductID </th>
 <th>ProductName</th>
 <th>Category</th>
-<th>Price</th> 
+<th>Price</th>
 <th>Amount</th>
-<th>Description</th>  
-<th>Fabric</th> 
-<th>AverageRate</th> 
-<th>Stock</th> 
+<th>Description</th>
+<th>Fabric</th>
+<th>AverageRate</th>
+<th>Stock</th>
 <th><a href=AddProduct.php>Add</a></th>
  </tr>";
 while ($row = $results->fetch_array(MYSQLI_ASSOC) ) {
@@ -78,12 +109,35 @@ while ($row = $results->fetch_array(MYSQLI_ASSOC) ) {
 ?>
 </table>
 </body>
+<footer style="background-color:#ededed;width:100%;background-color:#263840;color:#818181;position:absolute;bottom:0px">
+  <br>
+  <div style="justify-content:space-evenly;display:flex">
+  <div>
+    <b>get to know us</b>
+    <ul>
+      <li>careers</li>
+      <li>blog</li>
+      <li>about amazon</li>
+    </ul>
+  </div>
+  <div>
+<b>Let us Help You </b>
+<ul>
+ <a href="Account.php" alt=" your account"><li>your account</li></a>
+ <a href="YouOrders.php"><li>you orders</li></a>
+ <li>shipping rates & policies</li>
+ <li>returns & replacemnts</li>
+</ul>
+</div>
+<div>
+ <b>Make Money with Us</b>
+ <ul>
+   <li>sell products on amazon</li>
+   <li>sell apps on amazon</li>
+     <li>Advertise Your Products</li>
+     </ul>
+</div>
+
+</div>
+</footer>
 </html>
-
-
-
-
-
-
-
-
