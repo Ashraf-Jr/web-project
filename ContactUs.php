@@ -1,64 +1,67 @@
-<?php session_start(); ?>
+<?php
+session_start();
+if(isset($_SESSION['ID']))
+{
+if($_SESSION['Role']==1)
+{
+  include_once("client menu.php");
+}
+else if($_SESSION['Role']==2)
+{
+  include_once("admin menu.php");
+}
+else if($_SESSION['Role']==3)
+{
+  include_once("HRmenu.php");
+}
+else if($_SESSION['Role']==4)
+{
+include_once("auditor menu.php");
+}
+
+}
+else
+{
+include_once("menu.php");
+}
+ ?>
 <html>
 <!-- <link rel="stylesheet" type="text/css" href="login.css" media="screen" /> -->
 
 <head>
   <style>
-input[type=text],input[type=password], select {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
 
-input[type=submit] {
-  width: 100%;
-  background-color: #4CAF50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
+  input[type=text],input[type=password], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
 
-input[type=submit]:hover {
-  background-color: #45a049;
-}
+  input[type=submit] {
+    width: 100%;
+    background-color: #ff4500;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  input[type=submit]:hover {
+    background-color: #9F2B00;
+  }
+
+
+
 
 .form {
-  margin-left:500;
-  margin-right: 500;
-}
-
-  .sidenav {
-  height: 35px; /* Full-height: remove this if you want "auto" height */
-  width: 100%; /* Set the width of the sidebar */
-  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-  z-index: 1; /* Stay on top */
-  top: 30; /* Stay at the top */
-  left: 0;
-  background-color: #111; /* Black */
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 20px;
-}
-
-/* The navigation menu links */
-.sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 15px;
-  color: #818181;
-  display: inline;
-}
-
-/* When you mouse over the navigation links, change their color */
-
-.sidenav a:hover {
-  color: #f1f1f1;
+  margin-left:300;
+  margin-right: 300;
 }
 /* Style page content */
 
@@ -89,27 +92,12 @@ input[type=text]
 } */
   </style>
 </head>
-<div id="logo" >
+<div id="logo">
   <header>
 
       <!-- Top header menu containing
           logo and Navigation bar -->
-      <div id="top-header">
 
-          <!-- Logo -->
-          <div id="logo">
-            <a href="HomePage.php">  <img src="Tectoy_simple_logo.png" width= "50px";height="50px"; ></a>
-              <div class="sidenav">
-                <center>
-                <a href="HomePage.php">Home</a>
-               <a href="AboutUs.php">About Us</a>
-               <a href="OurProducts.php">Our Products</a>
-               <a href="#">Careers</a>
-               <a href="ContactUs.php">Contact Us</a>
-               <a href="SignUp.php">SignUp</a>
-               <a href="LoginPage.php">Login</a>
-             </center>
-              </div>
 
       <!-- Image menu in Header to contain an Image and
           a sample text over that image -->
@@ -122,7 +110,8 @@ input[type=text]
 </div>
 <center>
   <div class="form">
-<h1>Request your desired products</h1>
+<h2>Request your desired products</h2>
+<div>
 <p>Email us with any question or inquiries or cal +01016633884, We would be happy to answer
   your questions and set up a meeting with you.Black Sheep Web Design can help you apart from the flock!</p>
 </center>
@@ -137,7 +126,6 @@ input[type=text]
 
   <input type="submit" name="submit">
 </form>
-</div>
 
 <?php
 
@@ -208,7 +196,7 @@ if(isset($_POST['submit']))
 
 
 </div>
-<footer style="background-color:#ededed;">
+<footer style="background-color:#ededed;width:100%;background-color:#263840;color:#818181;position:absolute;bottom:0px">
   <br>
   <div style="justify-content:space-evenly;display:flex">
   <div>
