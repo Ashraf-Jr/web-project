@@ -16,7 +16,7 @@ if(!$result)
 }
 else
 {
-    echo"<h3 style='color:green;'> Deleted Admin secc </h3> ";
+    Header("Location:admin_view_admins.php");
 }
 		
 ?>
