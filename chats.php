@@ -1,11 +1,41 @@
-<html>
-<head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
 <?php
 session_start();
+if(isset($_SESSION['ID']))
+{
+if($_SESSION['Role']==1)
+{
+  include_once("client menu.php");
+}
+else if($_SESSION['Role']==2)
+{
+  include_once("admin menu.php");
+}
+else if($_SESSION['Role']==3)
+{
+  include_once("HRmenu.php");
+}
+else if($_SESSION['Role']==4)
+{
+include_once("auditor menu.php");
+}
+else
+{
+include_once("menu.php");
+}
+}
+ ?>
+<html>
+<head>
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+</head>
+<?php
+
+
+
+
+
 
 $servername = "localhost";
 $username = "root";
@@ -18,7 +48,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 ?>
 
-<form class="form-inline" method = "POST" action = "">
+<form class="form-inline" method = "POST" action = ""><br>
 <input type="text" name = "name" placeholder="Search" class="form-control">
 <input type="submit" value='Search' name='search' class="btn btn-default">
 </form>
