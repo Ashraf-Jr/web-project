@@ -1,32 +1,34 @@
-<?php session_start(); ?>
-<html>
+<?php
+session_start();
+if(isset($_SESSION['ID']))
+{
+if($_SESSION['Role']==1)
+{
+  include_once("client menu.php");
+}
+else if($_SESSION['Role']==2)
+{
+  include_once("admin menu.php");
+}
+else if($_SESSION['Role']==3)
+{
+  include_once("HRmenu.php");
+}
+else if($_SESSION['Role']==4)
+{
+include_once("auditor menu.php");
+}
+else
+{
+include_once("menu.php");
+}
+}
+ ?>
+ <html>
 <head>
 
   <style>
-  .sidenav {
-  height: 35px; /* Full-height: remove this if you want "auto" height */
-  width: 100%; /* Set the width of the sidebar */
-  z-index: 1; /* Stay on top */
-  top: 30; /* Stay at the top */
-  left: 0;
-  background-color: #111; /* Black */
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 20px;
-}
 
-/* The navigation menu links */
-.sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 15px;
-  color: #818181;
-  display: inline;
-}
-
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
-  color: #f1f1f1;
-}
 select {
   width: 20%;
   padding: 7px 20px;
@@ -69,37 +71,23 @@ button.star
 }
 body
 {
-  margin-left:65px;
+  /* margin-left:65px; */
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
 </style>
 </head>
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+
+
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
 <header>
 
-    <!-- Top header menu containing
-        logo and Navigation bar -->
 
-        <!-- Logo -->
-
-          <a href="HomePage.php" > <img src="Tectoy_simple_logo.png" width= "50px";height="50px"; ></a>
-            <div class="sidenav">
-              <center>
-              <a href="HomePage.php">Home</a>
-             <a href="AboutUs.php">About Us</a>
-             <a href="OurProducts.php">Our Products</a>
-             <a href="#">Careers</a>
-             <a href="ContactUs.php">Contact Us</a>
-             <a href="SignUp.php">SignUp</a>
-             <a href="LoginPage.php">Login</a>
-           </center>
-            </div>
-
-    <!-- Image menu in Header to contain an Image and
-        a sample text over that image -->
 
 </header>
 <body>
@@ -173,7 +161,7 @@ if($cartResult)///cartResult
 
   if($orderArrayResult)
   {
-    echo"succes";
+    // echo"succes";
   }
   else
   {
@@ -228,7 +216,7 @@ $Receipt="INSERT INTO receipt (OrderID,DateOfOrder,ShippingDate,TotalPrice) VALU
 $receiptResult=$conn->query($Receipt);
 if($receiptResult)
 {
-  echo"receipt done";
+  // echo"receipt done";
 }
 else
 {
@@ -286,14 +274,14 @@ $n=count($OrderID)-1;
 </div>
 
 <?php
-echo "    Date of Order: ".$DateOfOrder ."</h4><br>";
-echo "    ShippingDate: ".$ShippingDate."</h4><br>";
-echo "<h4 style='margin-left:65px'>Total Price: ".$TotalPrice." LE</h4>";
+echo "<p style='margin-left:20px;border:5px'>Date of Order: ".$DateOfOrder ."</h4></p><br>";
+echo "<p style='margin-left:20px;border:5px'>ShippingDate: ".$ShippingDate."</h4></p><br>";
+echo "<h4 style='margin-left:20px'>Total Price: ".$TotalPrice." LE</h4>";
 
 }
 //$OrderID++;
 
- $deleteCart="Delete  from cart";
+ $deleteCart="Delete  from cart where UserID=".$_SESSION['ID'];
  $deleteCartResult=$conn->query($deleteCart);
  if($deleteCartResult)
 {
@@ -309,6 +297,37 @@ echo "<h4 style='margin-left:65px'>Total Price: ".$TotalPrice." LE</h4>";
 
    }
  ?>
- 
+
 </body>
+<footer class="footer" style="background-color:#263840;color:#818181">
+	<br>
+	<div style="justify-content:space-evenly;display:flex">
+	<div>
+		<b>get to know us</b>
+		<ul>
+			<li>careers</li>
+			<li>blog</li>
+			<li>about amazon</li>
+		</ul>
+	</div>
+	<div>
+<b>Let us Help You </b>
+<ul>
+ <a href="Account.php" alt=" your account"><li>your account</li></a>
+ <a href="YouOrders.php"><li>you orders</li></a>
+ <li>shipping rates & policies</li>
+ <li>returns & replacemnts</li>
+</ul>
+</div>
+<div>
+ <b>Make Money with Us</b>
+ <ul>
+	 <li>sell products on amazon</li>
+	 <li>sell apps on amazon</li>
+		 <li>Advertise Your Products</li>
+		 </ul>
+</div>
+
+</div>
+</footer>
 </html>
