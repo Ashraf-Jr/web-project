@@ -1,32 +1,34 @@
-<?php session_start(); ?>
-<html>
+<?php
+session_start();
+if(isset($_SESSION['ID']))
+{
+if($_SESSION['Role']==1)
+{
+  include_once("client menu.php");
+}
+else if($_SESSION['Role']==2)
+{
+  include_once("admin menu.php");
+}
+else if($_SESSION['Role']==3)
+{
+  include_once("HRmenu.php");
+}
+else if($_SESSION['Role']==4)
+{
+include_once("auditor menu.php");
+}
+else
+{
+include_once("menu.php");
+}
+}
+ ?>
+ <html>
 <head>
 
   <style>
-  .sidenav {
-  height: 35px; /* Full-height: remove this if you want "auto" height */
-  width: 100%; /* Set the width of the sidebar */
-  z-index: 1; /* Stay on top */
-  top: 30; /* Stay at the top */
-  left: 0;
-  background-color: #111; /* Black */
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 20px;
-}
 
-/* The navigation menu links */
-.sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 15px;
-  color: #818181;
-  display: inline;
-}
-
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
-  color: #f1f1f1;
-}
 select {
   width: 20%;
   padding: 7px 20px;
@@ -80,27 +82,6 @@ body
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <header>
 
-    <!-- Top header menu containing
-        logo and Navigation bar -->
-
-        <!-- Logo -->
-
-          <a href="HomePage.php" > <img src="Tectoy_simple_logo.png" width= "50px";height="50px"; ></a>
-            <div class="sidenav">
-              <center>
-              <a href="HomePage.php">Home</a>
-             <a href="AboutUs.php">About Us</a>
-             <a href="OurProducts.php">Our Products</a>
-             <a href="#">Careers</a>
-             <a href="ContactUs.php">Contact Us</a>
-             <a href="SignUp.php">SignUp</a>
-             <a href="LoginPage.php">Login</a>
-           </center>
-            </div>
-
-    <!-- Image menu in Header to contain an Image and
-        a sample text over that image -->
-
 </header>
 <body>
   <h1>Your History of Orders</h1>
@@ -118,8 +99,8 @@ body
   {
     echo"can not connect with the Database";
   }
-// elmoshkela hena mesh amleen join l table el products el hya gay menha el price aslan
-  $innerJoin="SELECT * FROM orderarray INNER JOIN orders ON orders.OrderID = orderarray.OrderID inner join Receipt on Receipt.OrderID=orders.OrderID ";
+
+  $innerJoin="SELECT * FROM orderarray ,TotalPrice INNER JOIN orders ON orders.OrderID = orderarray.OrderID inner join Receipt on Receipt.OrderID=orders.OrderID ";
   $result=$conn->query($innerJoin);
   if($result)
   {
@@ -150,23 +131,19 @@ body
      </thead>
      <tbody>
        <?php
-
        for($x=0;$x<$counter;$x++)
        {
-        if($OrderID[$x]==0 &&$Quantity[$x]==0 &&$Size[$x]==0 &&$price[$x]==0)
-        {
-          echo "You Made no Orders to be displayed!";
-          break;
-        }
-        else
-        {
+         //$per=$priceArray[$x]*$Quantity[$x];
+         //echo $priceArray[$x];
+           //$n=count($OrderID)-1;
      echo"  <tr>";
      echo"    <td>$OrderID[$x]</td>";
+    // echo"    <td>$ProductName[$x]  </td>";
      echo"    <td> X $Quantity[$x] </td>";
      echo"    <td>$Size[$x] </td>";
-     echo  "<td>$price[$x] </td>";
+     echo "<td>$price[$x] </td>";
+     //echo"    <td> $per  LE </td>";
      echo"  </tr>";
-   }
       }
         ?>
 
