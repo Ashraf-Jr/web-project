@@ -9,7 +9,8 @@
     z-index: 1; /* Stay on top */
     top: 30; /* Stay at the top */
     left: 0;
-    background-color: #111; /* Black */
+    /* #111 */
+    background-color: #263840; /* Black */
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 20px;
   }
@@ -25,7 +26,7 @@
 
   /* When you mouse over the navigation links, change their color */
   .sidenav a:hover {
-    color: #f1f1f1;
+    color: #FF5349;
   }
 
   /* Style page content */
@@ -49,19 +50,19 @@
 
         <!-- Top header menu containing
             logo and Navigation bar -->
-        <div id="top-header">
 
             <!-- Logo -->
-              <a href="HomePage.php">  <img src="Tectoy_simple_logo.png" width= "50px";height="50px"; ></a>
                 <div class="sidenav">
                   <center>
+                    <a href="HomePage.php">  <img style="float:left;margin-left:30px"src="shopee.png" width= "90px";height="90px"; ></a>
+
                   <a href="HomePage.php">Home</a>
                  <a href="AboutUs.php">About Us</a>
                  <a href="OurProducts.php">Our Products</a>
-                 <a href="#">Careers</a>
                  <a href="ContactUs.php">Contact Us</a>
                  <a href="chatClient.php">Messages</a>
-                 <a href="Logout.php">LogOut</a>
+                 <a href="LogOut.php">LogOut</a>
+
                </center>
                 </div>
 
