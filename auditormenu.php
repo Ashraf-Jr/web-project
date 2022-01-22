@@ -9,7 +9,7 @@
     /* z-index: 1; /* Stay on top */ */
     top: 30; /* Stay at the top */
     left: 0;
-    background-color: #111; /* Black */
+    background-color:#263840; /* Black */
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 20px;
   }
@@ -25,7 +25,7 @@
 
   /* When you mouse over the navigation links, change their color */
   .sidenav a:hover {
-    color: #f1f1f1;
+    color: #FF5349;
   }
 
   /* Style page content */
@@ -54,14 +54,15 @@
 
             <!-- Logo -->
             <div id="logo">
-              <a href="HomePage.php">  <img src="Tectoy_simple_logo.png" width= "50px";height="50px"; ></a>
+              <!-- <a href="HomePage.php">  <img src="Tectoy_simple_logo.png" width= "50px";height="50px"; ></a> -->
                 <div class="sidenav">
                   <center>
+                    <a href="HomePage.php">  <img style="float:left;margin-left:30px"src="shopee.png" width= "90px";height="90px" ></a>
+
                   <a href="HomePage.php">Home</a>
-                 <a href="chatAuditor.php">View Messages</a>
-                 <a href="Logout.php">LogOut</a>
-                 <a href="survey.php">Send Survey</a>
-                  <a href="LoginPage.php">Login</a>
+                 <a href="auditor_see_clients.php">View Messages</a>
+                 <a href="surveyform.php">Send Survey</a>
+                 <a href="surveyanswers.php">Survey records</a>
                  <a href="Logout.php">LogOut</a>
 
                </center>
