@@ -1,50 +1,82 @@
-<?php session_start(); ?>
+<?php
+session_start();
+if(isset($_SESSION['ID']))
+{
+if($_SESSION['Role']==1)
+{
+  include_once("client menu.php");
+}
+else if($_SESSION['Role']==2)
+{
+  include_once("admin menu.php");
+}
+else if($_SESSION['Role']==3)
+{
+  include_once("HRmenu.php");
+}
+else if($_SESSION['Role']==4)
+{
+include_once("auditor menu.php");
+}
+else
+{
+include_once("menu.php");
+}
+}
+ ?>
 <html>
 <head>
   <style>
-  .bg {
-          background-image: url("https://images.unsplash.com/photo-1523381294911-8d3cead13475?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9");
-          height: 100%;
-          background-position: center;
-          background-repeat: no-repeat;
-          background-size: cover;
-        }
+  input[type=submit] {
+    width: 30%;
+    background-color: #FF5349;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
 
-          .sidenav {
-          height: 35px; /* Full-height: remove this if you want "auto" height */
-          width: 100%; /* Set the width of the sidebar */
-          z-index: 1; /* Stay on top */
-          top: 30; /* Stay at the top */
-          left: 0;
-          background-color: #111; /* Black */
-          overflow-x: hidden; /* Disable horizontal scroll */
-          padding-top: 20px;
-        }
-
-        /* The navigation menu links */
-        .sidenav a {
-          padding: 6px 8px 6px 16px;
-          text-decoration: none;
-          font-size: 15px;
-          color: #818181;
-          display: inline;
-        }
-
-        /* When you mouse over the navigation links, change their color */
-        .sidenav a:hover {
-          color: #f1f1f1;
-        }
-
-        /* Style page content */
-        .main {
-          margin-left: 160px; /* Same as the width of the sidebar */
-          padding: 0px 10px;
-        }
-        li
-        {
+  input[type=submit]:hover {
+    background-color: #9F2B00;
+  }
 
 
-        }
+        .wrapper {
+  padding: 50px;
+}
+
+.image--cover {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+
+  object-fit: cover;
+
+}
+label{
+  font-size:13pt;
+  font-family: Calisto MT;
+}
+.form
+{
+  margin-left: 500px;
+  margin-right: 500px;
+}
+hr
+{
+width:30%;
+}
+a:hover{
+  color:white;
+}
+a
+{
+  color:#818181;
+  text-decoration: none;
+}
+
   </style>
 <header>
 
@@ -53,7 +85,7 @@
 
         <!-- Logo -->
 
-            <img src="Tectoy_simple_logo.png" width= "50px";height="50px"; >
+            <!-- <img src="Tectoy_simple_logo.png" width= "50px";height="50px"; >
             <div class="sidenav">
               <center>
               <a href="HomePage.php">Home</a>
@@ -64,7 +96,7 @@
              <a href="SignUp.php">SignUp</a>
              <a href="LoginPage.php">Login</a>
            </center>
-            </div>
+            </div> -->
 
     <!-- Image menu in Header to contain an Image and
         a sample text over that image -->
@@ -73,16 +105,16 @@
 
 </head>
 <center>
-<h1>Your Profile</h1></center>
+<h1 style="color:#333333"> Profile</h1></center>
 
 <h4 style="text-align:center">Personal Information</h4>
 <hr>
-<div style="justify-content:space-around;display:flex">
+<!-- <div style="justify-content:space-around;display:flex">
   <div>
     <p style="text-align:justify">Assertively utilize adaptive customer seruvice for future-proof platforms.
       Completely frive optimal markets.</p>
 </div>
-<div>
+<div> -->
   <?php
 
 $fname="";
@@ -96,6 +128,8 @@ if(!$conn)
 {
   echo"Failed to connect with the DataBase";
 }
+echo"   <center> <div class='wrapper'><img class='image--cover' src=".$_SESSION['Profile']." alt='Profile Picture' width='100'height-'100'></div></center><br>";
+
 $query="select * from user where UserID=\"".$_SESSION['ID']."\"";
 $result=$conn->query($query);
 if($row=$result->fetch_array(MYSQLI_ASSOC))
@@ -107,34 +141,36 @@ if($row=$result->fetch_array(MYSQLI_ASSOC))
   $phone=$row['Phone'];
   //$user=$row['UserName'];
 }
-echo'  <form action="edit.php" method="post">';
+echo'  <form class="form" action="edit.php" method="post">';
 echo'    <div style="justify-content:space-around;display:flex">';
 echo'    <div>';
-echo'    Profile Picture<br>';
-echo"    <img src='".$_SESSION['Profile']."' alt='Profile Picture' width='100'height-'100'><br>";
-echo $_SESSION['Profile'];
-echo '   First name<br>';
-echo"    <label for='fname'>" .$_SESSION['FirstName']. "</label><br>";
-echo'    Email<br>';
-echo"    <label for='email'>".$_SESSION['Email']."</label><br>";
-echo'    Address<br>';
-echo"    <label for='address'> ".$_SESSION['Address']."</label>";
-echo'<br><input type="submit" name="edit" value="edit">';
+// echo'    Profile Picture<br>';
+echo '   <label>First name</label><br>';
+echo"    <b><label for='fname'>" .$_SESSION['FirstName']. "</label></b><br>";
+echo'    <label>Email</label><br>';
+echo"   <b> <label for='email'>".$_SESSION['Email']."</label></b><br>";
+echo'    <label>Address</label><br>';
+echo"    <b><label for='address'> ".$_SESSION['Address']."</label></b>";
 
 echo'  </div>';
 echo'  <div style="margin-left:10px">';
-echo'    Last Name<br>';
-echo"    <label for='lname' >".$_SESSION['LastName']."</label><br>";
-echo "Phone Number<br>";
-echo"<label for='phone'>".$_SESSION['Phone']."</label>";
+echo'    <label>Last Name</label><br>';
+echo"    <b><label for='lname' >".$_SESSION['LastName']."</label></b><br>";
+echo "<label>Phone Number</label><br>";
+echo"<b><label for='phone'>".$_SESSION['Phone']."</label></b>";
 echo'  </div>';
 echo'</div>';
+echo'<br><center><input  type="submit" name="edit" value="edit"></center>';
+
 echo'  </form>';
 echo'</div>';
 
+
 ?>
+<br><br>
 </div>
-<footer style="background-color:#ededed;position:absolute;bottom:0px;width:100%">
+
+<footer style="background-color:#ededed;width:100%;background-color:#263840;color:#818181;">
   <br>
   <div style="justify-content:space-evenly;display:flex">
   <div>
@@ -165,4 +201,7 @@ echo'</div>';
 
 </div>
 </footer>
+
+
+
 </html>
