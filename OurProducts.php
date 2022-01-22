@@ -1,31 +1,27 @@
 <html>
+<?php
+session_start();
+  if(isset($_SESSION['ID']))
+  {
+  if($_SESSION['Role']==1)
+  {
+    include_once("client menu.php");
+  }
+  else if($_SESSION['Role']==2)
+  {
+    include_once("admin menu.php");
+  }
+  }
+  else
+  {
+  include_once("menu.php");
+  }
+  ?>
 <head>
 
   <style>
-  .sidenav {
-  height: 35px; /* Full-height: remove this if you want "auto" height */
-  width: 100%; /* Set the width of the sidebar */
-  z-index: 1; /* Stay on top */
-  top: 30; /* Stay at the top */
-  left: 0;
-  background-color: #111; /* Black */
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 20px;
-}
 
-/* The navigation menu links */
-.sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 15px;
-  color: #818181;
-  display: inline;
-}
 
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
-  color: #f1f1f1;
-}
 select {
   width: 20%;
   padding: 7px 20px;
@@ -51,34 +47,28 @@ input[type=text]:focus {
 width: 20%;
 }
 
+.box {
+margin : 10px;
+display : inline-block;
+width: 170px;
+height: 275px;
+/* background-color: #F5FBEF; */
+text-align:center;
+vertical-align: top;
+}
+.image--cover {
+
+  border-radius: 10%;
+
+  object-fit: cover;
+
+}
+
 
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
 </style>
 </head>
-<header>
 
-    <!-- Top header menu containing
-        logo and Navigation bar -->
-
-        <!-- Logo -->
-
-          <a href="HomePage.php" > <img src="Tectoy_simple_logo.png" width= "50px";height="50px"; ></a>
-            <div class="sidenav">
-              <center>
-              <a href="HomePage.php">Home</a>
-             <a href="AboutUs.php">About Us</a>
-             <a href="OurProducts.php">Our Products</a>
-             <a href="#">Careers</a>
-             <a href="ContactUs.php">Contact Us</a>
-             <a href="SignUp.php">SignUp</a>
-             <a href="LoginPage.php">Login</a>
-           </center>
-            </div>
-
-    <!-- Image menu in Header to contain an Image and
-        a sample text over that image -->
-
-</header>
 <br><br><br>
 <center>
 
@@ -87,9 +77,11 @@ width: 20%;
    <form method='post' action=''>
   <input type="search" name="search">
   <input type='submit' name='searchbutton' value='Search'>
-  <?php  $categories=array("All","Jeans","shorts","t-shirts","chemise"); ?>
+  <?php  $categories=array("jeans","dress","shirt","sweater"); ?>
   <br><br>
   Categories
+
+  <form  method='post' action=''>
   <select name="categories">
     <?php
 
@@ -99,6 +91,41 @@ width: 20%;
     }
      ?>
   </select>
+    <input type='submit' name='categorybutton' value='categories'>
+
+</form>
+<?php
+$conn=mysqli_connect("localhost","root","","market place");
+if(isset($_POST['categorybutton']))
+  {
+
+  $query="select * from products inner join product_images on products.ProductID=product_images.productID where products.Category LIKE '%".$_POST['categories']."%'";
+
+  $Result=$conn->query($query);
+
+   if($Result)
+   {
+     echo"<br><br>";
+     while($row=$Result->fetch_array(MYSQLI_ASSOC))
+     {
+       ?>
+       <div class="box">
+       <a href= "productView.php?data=<?=$row['productID']?>"> <img class="image--cover" src="<?=$row['image']?>"  alt='image' width='100%'></a>
+
+       <?php
+        echo "<b>".$row['ProductName']."</b><br>";
+        // echo $row['Description']."<br>";
+        echo $row['Price']." LE</div>";
+     }
+    }
+ }
+else
+{
+
+
+
+   ?>
+
   <?php
   $conn=mysqli_connect("localhost","root","","market place");
 
@@ -116,19 +143,25 @@ width: 20%;
      echo"<br><br>";
      while($row=$searchResult->fetch_array(MYSQLI_ASSOC))
      {
-         echo "<img src='".$row['image']."' alt='image' width='20%'>";
+       ?>
+       <div class="box">
+       <a href= "productView.php?data=<?=$row['productID']?>"> <img class="image--cover" src="<?=$row['image']?>"  alt='image' width='100%'></a>
 
-     }
-      if($row=$searchResult2->fetch_array(MYSQLI_ASSOC))
-     {
-
-        echo"<br>";
-        echo $row['ProductName']."<br>";
-        echo $row['Description']."<br>";
-        echo $row['Price']." LE<br>";
-
-
-     }
+    <?php
+        echo "<b>".$row['ProductName']."</b><br>";
+        // echo $row['Description']."<br>";
+        echo $row['Price']." LE</div>";
+  }/////enddd
+     //  if($row=$searchResult2->fetch_array(MYSQLI_ASSOC))
+     // {
+     //
+     //    // echo"<br>";
+     //    echo "<h5>".$row['ProductName']."</h5>";
+     //    // echo $row['Description']."<br>";
+     //    echo $row['Price']." LE<br></div>";
+     //
+     //
+     // }
      //echo"search done";
 
    }
@@ -136,6 +169,8 @@ width: 20%;
    {
      echo"something went wrong try again!";
    }
+
+
 }
    ?>
 
@@ -168,7 +203,8 @@ if($result)
     {
     //  $id=row['productID'];
 ?>
-   <a href= "productView.php?data=<?=$row['productID']?>"> <img src="<?=$row['image']?>"  alt='image' width='20%'></a>
+<div class="box">
+   <a href= "productView.php?data=<?=$row['productID']?>"> <img  class="image--cover"src="<?=$row['image']?>"  alt='image' width='100%'></a>
 
    <?php
 
@@ -179,11 +215,11 @@ if($result)
      $nextid = $next['productID'];
      if($currentid!=$nextid)
      {
-       echo"<br>";
-       echo"<h1>". $row['ProductName']."</h1>"."<br>";
-       echo $row['Description']."<br>";
-       echo $row['Price']."<br>";
-       echo"<button name='cart'>Add to Cart </button><br>";
+       // echo"<br>";
+       echo"<b>". $row['ProductName']."</b><br>"."";
+       // echo $row['Description']."<br>";
+       echo $row['Price']." LE<br><br></div>";
+       // echo"<button name='cart'>Add to Cart </button><br>";
      }
 
 
@@ -192,11 +228,16 @@ if($result)
    }
    else
    {
-     echo"<br>";
-     echo"<h1>". $row['ProductName']."</h1>"."<br>";
-     echo $row['Description']."<br>";
-     echo $row['Price']."<br>";
-     echo"<button name='cart'>Add to Cart </button><br>";
+     ?>
+     <div class="box">
+     <a href= "productView.php?data=<?=$row['productID']?>"> <img  class="image--cover"src="<?=$row['image']?>"  alt='image' width='100%'></a>
+<?php
+
+     // echo"<br>";
+     echo"<b>". $row['ProductName']."</b><br>"."";
+     // echo $row['Description']."<br>";
+     echo $row['Price']." LE <br><br></div>";
+     // echo"<button name='cart'>Add to Cart </button><br>";
    }
 
   }
@@ -208,8 +249,9 @@ else {
 }
 
 }
+}
  ?>
--
+<br><br><br>
 
 
 
